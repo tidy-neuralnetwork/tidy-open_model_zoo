@@ -1,0 +1,7 @@
+{
+ 
+    "python.analysis.extraPaths": [
+        "/usr/local/lib/python3.8/dist-packages",
+        "/root/open_model_zoo/sources/open_model_zoo/demos/common/python"
+    ]
+}
