@@ -34,28 +34,24 @@ mkdir -p test_data/videos
 wget -P test_data/videos/ https://storage.openvinotoolkit.org/data/test_data/videos/people-detection.mp4
 
 
-mkdir -p test_data/images
-wget -P test_data/images/ https://storage.openvinotoolkit.org/data/test_data/images/person_detection.png
-
 ```
 
 # run
 ```
-export NO_AT_BRIDGE=1
+
 cd /root/open_model_zoo/sources/open_model_zoo/demos/monodepth_demo/python
 python3 monodepth_demo.py \
 -d CPU \
--i /root/open_model_zoo/sources/open_model_zoo/demos/monodepth_demo/python/test_data/images/person_detection.png \
--m /root/open_model_zoo/sources/open_model_zoo/demos/monodepth_demo/python/public/midasnet/FP32/midasnet.xml \
--o output
-
-
-export NO_AT_BRIDGE=1
-cd /root/open_model_zoo/sources/open_model_zoo/demos/monodepth_demo/python
-python3 monodepth_demo.py \
--d CPU \
--i /root/open_model_zoo/sources/open_model_zoo/demos/monodepth_demo/python/test_data/videos/classroom.mp4 \
+-i /root/open_model_zoo/sources/open_model_zoo/demos/monodepth_demo/python/test_data/videos/people-detection.mp4 \
 -m /root/open_model_zoo/sources/open_model_zoo/demos/monodepth_demo/python/public/midasnet/FP16/midasnet.xml
+
+
+cd /root/open_model_zoo/sources/open_model_zoo/demos/monodepth_demo/python
+python3 monodepth_demo.py \
+-d CPU \
+-i /root/open_model_zoo/sources/open_model_zoo/demos/monodepth_demo/python/test_data/videos/people-detection.mp4 \
+-m /root/open_model_zoo/sources/open_model_zoo/demos/monodepth_demo/python/public/fcrn-dp-nyu-depth-v2-tf/FP16/fcrn-dp-nyu-depth-v2-tf.xml
+
 
 
 ```

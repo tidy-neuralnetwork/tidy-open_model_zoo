@@ -37,11 +37,11 @@ sudo docker exec -it tidy-open_model_zoo-2022.3.0 /bin/bash
 
 # install 
 ```
+apt -y update
 apt install -y iputils-ping
 apt install -y inetutils-telnet
-apt install -y wget
-apt install -y libcanberra-gtk-module
-
+apt install -y wget vim
+apt install -y ffmpeg
 
 
 ```
