@@ -14,8 +14,9 @@ xhost local:root
 sudo docker run -itd  \
 --name tidy-open_model_zoo-2022.3.0 \
 --user root \
+--device /dev/dri:/dev/dri \
+-v /dev:/dev \
 --privileged \
---ipc=host \
 -v /etc/localtime:/etc/localtime \
 -v /tmp/.X11-unix:/tmp/.X11-unix \
 -e DISPLAY=$DISPLAY \

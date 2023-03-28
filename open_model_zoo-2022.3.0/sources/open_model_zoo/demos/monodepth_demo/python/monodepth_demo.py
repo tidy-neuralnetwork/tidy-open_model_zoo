@@ -157,6 +157,18 @@ def main():
         results = pipeline.get_result(next_frame_id_to_show)
         if results:
             depth_map, frame_meta = results
+            print(f'---depth_map.shape: {depth_map.shape}')
+
+            # iphone6splus相机内参 
+            fx = 4.15
+            # 相机拍摄的图像宽度为3024
+            image_width = 3024
+            bbox = (1035, 1035, 1901, 2063)
+            get_object_distance(fx, depth_map, bbox, image_width) 
+            
+        
+                    
+        
             depth_map = apply_color_map(depth_map, output_transform)
 
             start_time = frame_meta['start_time']
@@ -202,6 +214,50 @@ def main():
     for rep in presenter.reportMeans():
         log.info(rep)
 
+
+
+def get_object_distance(fx, depth_preds, bbox, image_width):
+    
+    # 相机焦距为4.15mm
+    focal_length = fx / 1000 # 转换为米
+
+    # 获取目标物体在图像中的二维位置
+    xmin, ymin, xmax, ymax = bbox
+    # 获取目标物体在深度预测图中的区域
+    depth_roi = depth_preds[ymin:ymax, xmin:xmax]    
+
+    # 计算深度预测图中目标物体的深度均值
+    object_depth = np.mean(depth_roi)
+    print(f'--object_depth: {object_depth}')
+    
+    distance = 1 / (object_depth * fx)
+    
+    print(f'--目标物到相机的实际距离: {distance}')
+    
+ 
+    # 目标物上任意两点在图像中的像素距离为300
+    pixel_distance = xmax - xmin
+    
+    # 计算目标物上任意两点的实际距离
+    distance = get_pixel_distance(pixel_distance, object_depth, focal_length, image_width)
+    print(f"目标物上任意两点的实际距离为：{distance:.2f}米")
+
+
+    return distance
+
+
+import math
+def get_pixel_distance(pixel_distance, depth, focal_length, image_width):
+
+    # 计算实际距离
+    actual_distance = depth * focal_length * image_width
+
+    # 计算两点间的实际距离
+    actual_pixel_distance = pixel_distance * actual_distance / image_width
+
+    return actual_pixel_distance
+
+   
 
 if __name__ == '__main__':
     main()
